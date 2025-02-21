@@ -23,12 +23,15 @@ app.use(helmet());
 // Disable the "X-Powered-By" header to prevent disclosing server technology
 app.disable('x-powered-by');
 
-// Define your application routes here
-// Example: app.get('/api/example', (req, res) => { ... });
+// Define a test route
+app.get('/api/status', (req, res) => {
+    logger.info('Status check endpoint hit');
+    res.status(200).json({ message: 'Server is running' });
+});
 
-// Catch-all route for unhandled requests, responds with a simple message
+// Catch-all route for unhandled requests
 app.use((_req, res) => {
-	return res.status(200).send('Back-end for');
+    return res.status(404).json({ message: 'Route not found' });
 });
 
 // Get the port number from environment variables or default to 5000
@@ -36,6 +39,6 @@ const port = process.env.PORT || 5000;
 
 // Start the server and listen for incoming requests on the specified port
 app.listen(port, () => {
-	// Log a message to indicate the server is running
-	logger.info(`App Listening on port ${port}`);
+    logger.info(`App Listening on port ${port}`);
+    console.log(`Server running on http://localhost:${port}`);
 });
